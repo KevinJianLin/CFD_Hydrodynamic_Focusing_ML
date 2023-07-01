@@ -1,0 +1,50 @@
+	; SAMPLE FLUENT JOURNAL FILE - TRANSIENT SIMULATION
+; -------------------------------------------------
+; lines beginning with a semicolon are comments
+
+; not to save at cff format
+file/cff-files no
+
+; For continuation (restart) read in both case and data input files:
+/file/read-case-data 	 "../ansys_output/v33_1_1.cas.gz"
+
+; Write a data (and maybe case) file every 100 time steps:
+/file/auto-save/data-frequency 1500
+/file/auto-save/case-frequency if-case-is-modified
+
+/file/auto-save/retain-most-recent-files n
+
+; Write to output sub-directory (appends flowtime and timestep)
+/file/auto-save/root-name ../ansys_output/oct_58_2022/FFF-transient-out-%10.6f.gz
+
+; ##### settings for Transient simulation :  ######
+; Set the magnitude of the (physical) time step (delta-t)
+/solve/set/time-step   0.00001
+
+/solve/set/max-iterations-per-time-step 3  
+
+; Set the number of iterations for which convergence monitors are reported:
+/solve/set/reporting-interval   1500
+
+/display/set/contours/node-values? no
+/display/set/contours/filled-contours? yes
+/display/set/picture/driver png
+/display/set/picture/landscape yes
+/display/set/picture/x-resolution 960
+/display/set/picture/y-resolution 720
+/display/surface/plane-surface planexy yz-plane 0
+
+/solve/execute-commands/add-edit command-1 1 time-step "/display/profile sample vof"
+/solve/execute-commands/add-edit command-2 1 time-step "/views/restore-view left"
+/solve/execute-commands/add-edit command-3 1 time-step "/display/save-picture ../ansys_output/samplevof%t.png"
+
+
+; Perform unsteady iterations for a specified number of time steps:
+/solve/dual-time-iterate 2250
+
+; Write final case and data output files:
+/file/write-case-data  "../ansys_output/final.cas.gz"
+
+; Exit fluent:
+exit
+
