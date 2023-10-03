@@ -26,6 +26,7 @@ file/cff-files no
 ; Set the number of iterations for which convergence monitors are reported:
 /solve/set/reporting-interval   1500
 
+; used to save images and animation, if not using it, just comment it out
 /display/set/contours/node-values? no
 /display/set/contours/filled-contours? yes
 /display/set/picture/driver png
@@ -33,7 +34,6 @@ file/cff-files no
 /display/set/picture/x-resolution 960
 /display/set/picture/y-resolution 720
 /display/surface/plane-surface planexy yz-plane 0
-
 /solve/execute-commands/add-edit command-1 1 time-step "/display/profile sample vof"
 /solve/execute-commands/add-edit command-2 1 time-step "/views/restore-view left"
 /solve/execute-commands/add-edit command-3 1 time-step "/display/save-picture ../ansys_output/samplevof%t.png"
